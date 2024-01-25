@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 // const mongoUri = "mongodb://localhost:27017/?directConnection=true&readPreference=primary";
 // const mongoUri = "mongodb://127.0.0.1/?directConnection=true&readPreference=primary";
-const mongoUri = "mongodb://0.0.0.0:27017/iNotebook?directConnection=true&readPreference=primary";
+const mongoUri = "mongodb://0.0.0.0:27017/?directConnection=true&readPreference=primary";
+// const mongoUri = "mongodb://localhost:27017/?directConnection=true&readPreference=primary";
 
 
 const connectToMongo = ()=>{ mongoose.connect(
