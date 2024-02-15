@@ -34,9 +34,10 @@ const NoteState = (props) => {
       },
       body: JSON.stringify({ title, description, tag }), // body data type must match "Content-Type" header  
     });
-    console.log("addin a note")
+    const json = await response.json();
+    console.log(json);
     const note = {
-      "_id": "658bd068db38da590d2e302dc97",
+      "_id": "658bd068db38da590+d2e302dc97",
       "user": "6437be7b8be811b7db5eca01",
       "title": title,
       "description": description,
@@ -67,7 +68,7 @@ const NoteState = (props) => {
   const editNote = async (id, title, description, tag) => {
     //API call
     const response = await fetch(`${host}/api/note/updatenote/${id}`, {
-      method: "POST",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
         "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjQzN2JlN2I4YmU4MTFiN2RiNWVjYTAxIn0sImlhdCI6MTY4MTQ3NzgyNn0.VpsamhA0FOfj11lReVuQnrgX5ko3KdGL2emi6cp7LUE"
@@ -75,17 +76,22 @@ const NoteState = (props) => {
       },
       body: JSON.stringify({ title, description, tag }), // body data type must match "Content-Type" header  
     });
-    const json = response.json(); // parses JSON response into native JavaScript objects
+    const json = await response.json(); // parses JSON response into native JavaScript objects
+    console.log(json)
+
 
     //Logic for updation on client side
-    for (let i = 0; i < notes.length; i++) {
-      const element = notes[i];
+    let newNotes = JSON.parse(JSON.stringify(notes));
+    for (let i = 0; i < newNotes.length; i++) {
+      const element = newNotes[i];
       if (element._id === id) {
-        element.title = title;
-        element.description = description;
-        element.tag = tag;
+        newNotes[i].title = title;
+        newNotes[i].description = description;
+        newNotes[i].tag = tag;
+        break
       }
     }
+    setNotes(newNotes);
   }
   return (
     //value={{state:state , update:update}}
