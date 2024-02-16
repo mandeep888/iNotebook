@@ -18,7 +18,6 @@ const NoteState = (props) => {
       },
     });
     const json = await response.json();
-    console.log(json)
     setNotes(json);
   }
 
@@ -34,17 +33,7 @@ const NoteState = (props) => {
       },
       body: JSON.stringify({ title, description, tag }), // body data type must match "Content-Type" header  
     });
-    const json = await response.json();
-    console.log(json);
-    const note = {
-      "_id": "658bd068db38da590+d2e302dc97",
-      "user": "6437be7b8be811b7db5eca01",
-      "title": title,
-      "description": description,
-      "tag": tag,
-      "date": "2024-02-02T15:13:17.716Z",
-      "__v": 0
-    };
+    const note = await response.json();
     setNotes(notes.concat(note))
   }
   //Function to delete a note
@@ -59,8 +48,6 @@ const NoteState = (props) => {
       }
     });
     const json = await response.json();
-    console.log("deleting a note with id : ", id)
-    console.log(json)
     const newNotes = notes.filter((note) => { return note._id !== id })
     setNotes(newNotes);
   }
@@ -77,7 +64,7 @@ const NoteState = (props) => {
       body: JSON.stringify({ title, description, tag }), // body data type must match "Content-Type" header  
     });
     const json = await response.json(); // parses JSON response into native JavaScript objects
-    console.log(json)
+
 
 
     //Logic for updation on client side
