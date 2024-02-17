@@ -66,14 +66,17 @@ body('password',"Password cannot br blank").exists()
     const {email,password} = req.body;
     //console.log(email,password);
     try{
+      let success=false;
       let user = await User.findOne({email})    //Will find a user matching the email in DB by accessing "User" model
       if(!user){
-        return res.status(400).json({error: "Please try to login with correct credentials"});
+        success=false;
+        return res.status(400).json({success,error: "Please try to login with correct credentials"});
       }
       const passwordCompare = await bcrypt.compare(password,user.password);
      // console.log(user.password);
       if(!passwordCompare){
-        return res.status(400).json({error: "Please try to login with correct credentials"});
+        success=false;
+        return res.status(400).json({success,error: "Please try to login with correct credentials"});
       }
       const data = {
         user:{
@@ -82,7 +85,8 @@ body('password',"Password cannot br blank").exists()
       }
       const authToken = jwt.sign(data,JWT_SECRET);
     console.log(authToken);
-    res.json({authToken})
+    success=true;
+    res.json({success,authToken})
     }
     catch(error){
       console.error(error.message);

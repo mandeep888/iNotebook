@@ -5,7 +5,7 @@ const AddNote = () => {
   const {addNote} = context;
 
   //State for this component exclusively
-  const [note,setNote]=useState({title:"",description:"",tag:"default"})
+  const [note,setNote]=useState({title:"",description:"",tag:""})
   const handleClick=(e)=>{
     e.preventDefault();
     addNote(note.title,note.description,note.tag);
@@ -16,7 +16,7 @@ const AddNote = () => {
   }
   return (
     <>
-    <h2>Add a Note</h2>
+    <h2 className='my-3'>Add a Note</h2>
       <div className="container my-3">
       <form className='my-3'>
           <div className="mb-3">
