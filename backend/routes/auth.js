@@ -15,8 +15,9 @@ router.post('/createuser',[
 ], async (req,res)=>{
     const errors = validationResult(req);   
     //If the credentials doesn't match the upper criteria then error will thrown 
+    let success = false;
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({ success , errors: errors.array() });
     } 
 
     try{
@@ -25,7 +26,7 @@ router.post('/createuser',[
     let dupName = await User.findOne({name:req.body.name});
     
     if(user || dupName){
-      return res.status(400).json({error: "Sorry a user with this username or email already exist"})
+      return res.status(400).json({success , error: "Sorry a user with this username or email already exist"})
     }
     
     //create a new user
@@ -43,8 +44,9 @@ router.post('/createuser',[
       }
     }
     const authToken = jwt.sign(data,JWT_SECRET);
+    success = true;
     console.log(authToken);
-    res.json({authToken});
+    res.json({success , authToken});
       // res.json({"hello": "hello"})   // FOR DEBUGGING
     }
     catch(error){
@@ -97,7 +99,7 @@ body('password',"Password cannot br blank").exists()
 router.post('/getuser',fetchUser, async (req,res)=>{
 try{
   // console.log(req.user.id)
-  userID = req.user.id;
+  const userID = req.user.id;
   const user = await User.findById(userID).select("-password");
   res.send(user);
 }
