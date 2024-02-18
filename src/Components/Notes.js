@@ -3,7 +3,7 @@ import { useContext } from 'react'
 import noteContext from '../Context/notes/noteContext';
 import Noteitem from './NoteItem.js';
 import AddNote from './AddNote.js';
-const Notes = () => {
+const Notes = (props) => {
   const context = useContext(noteContext);
   const { notes, getAllNotes ,editNote } = context;
   //State for this component exclusively
@@ -28,6 +28,7 @@ const Notes = () => {
     e.preventDefault();
     editNote(note.id , note.etitle , note.edescription , note.etag)
     refClose.current.click();
+    props.showAlert("Note Updated Successfully" , "success");
    
   }
    
@@ -36,7 +37,7 @@ const Notes = () => {
    }
   return (
     <>
-      <AddNote />
+      <AddNote showAlert={props.showAlert} />
       <button ref={ref} type="button" className="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#exampleModal">
         Launch demo modal
       </button>
@@ -77,7 +78,7 @@ const Notes = () => {
         {notes.length === 0 && "No notes to display"}
         </div>
         {notes.map((note) => {
-          return <Noteitem key={note._id} updateNote={updateNote} note={note} />
+          return <Noteitem key={note._id} updateNote={updateNote} showAlert={props.showAlert}note={note} />
         })}
       </div>
     </>
